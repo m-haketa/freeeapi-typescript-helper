@@ -1,0 +1,43 @@
+{
+  "name": "freee-openapi-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^1.0.2-4.2.0",
+    "@types/node": "^12.12.5",
+    "@types/prompts": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "2.4",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.18.2",
+    "typescript": "^3.7"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts --fix .",
+    "clean": "rimraf ./dist",
+    "tsc": "tsc",
+    "build": "npm run clean && npm run tsc",
+    "node": "node ./dist/index.js",
+    "start": "npm run build && npm run node:demo",
+    "openapi-generator": "openapi-generator",
+    "apibuild:freeeapi": "openapi-generator generate -i https://raw.githubusercontent.com/freee/freee-api-schema/master/open-api-3/api-schema.json -g typescript-node -o src/freeeapi --additional-properties=allowUnicodeIdentifiers=true",
+    "apibuild:replacetype": "find ./src/freeeapi -type f -print0 | xargs -0 sed -i -e \"s/http.ClientResponse/any/\"",
+    "apibuild:ignorepartner": "patch ./src/freeeapi/model/partnersIndexResponse.ts < ./partnersIndexResponse.patch",
+    "apibuild": "npm run apibuild:freeeapi && npm run apibuild:replacetype && npm run apibuild:ignorepartner"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node-fetch": "^2.5.3",
+    "@types/request": "^2.48.3",
+    "node-fetch": "^2.6.0",
+    "prompts": "^2.2.1",
+    "request": "^2.88.0",
+    "rimraf": "^3.0.0"
+  }
+}

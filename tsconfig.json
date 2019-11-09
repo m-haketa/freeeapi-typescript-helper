@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "module": "commonjs",
+        "target": "es5",
+        "declaration": true,
+        "strict": true,
+        "baseUrl": ".",
+        "lib": ["esnext"],
+        "experimentalDecorators": true,
+        "paths": {
+            "*": ["@types/*"]
+        },
+        "esModuleInterop": true,
+        "moduleResolution": "node"
+    },
+    "include": ["./src/**/*","@types/*"],
+    "exclude": ["./src/lib/*"]
+}
