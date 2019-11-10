@@ -1,57 +1,30 @@
-import prompts, { PromptObject } from 'prompts';
 import fetch, { RequestInit, Response } from 'node-fetch';
 import { URLSearchParams } from 'url';
 import fs from 'fs';
 import path from 'path';
 
+export interface Params {
+  redirect_uri: string;
+  client_id: string;
+  client_secret: string;
+  code: string;
+}
+
 const tokenUrl = 'https://accounts.secure.freee.co.jp/public_api/token';
 const configFileRelativepath = '../src/token.json';
 
-function getDataFromPrompt(): Promise<
-  prompts.Answers<'client_id' | 'client_secret' | 'redirectUri'>
-> {
-  const questions: PromptObject<string>[] = [
-    {
-      type: 'text',
-      name: 'client_id',
-      message: 'freeeAPIのClient IDを入力してください'
-    },
-    {
-      type: 'text',
-      name: 'client_secret',
-      message: 'freeeAPIのClient Secretを入力してください'
-    },
-    {
-      type: 'text',
-      name: 'redirectUri',
-      message: 'freeeAPIのコールバックURLを入力してください'
-    }
-  ];
+async function getToken(params: Params): Promise<Response> {
+  const bodyParams = new URLSearchParams();
 
-  return prompts(questions, {
-    onCancel: () => {
-      throw '処理を中断しました';
-    }
-  });
-}
-
-async function getToken(
-  client_id: string,
-  client_secret: string,
-  code: string,
-  redirect_uri: string
-): Promise<Response> {
-  const params = new URLSearchParams();
-
-  params.append('grant_type', 'authorization_code');
-  params.append('client_id', client_id);
-  params.append('client_secret', client_secret);
-  params.append('code', code);
-  params.append('redirect_uri', redirect_uri);
+  bodyParams.append('grant_type', 'authorization_code');
+  bodyParams.append('client_id', params.client_id);
+  bodyParams.append('client_secret', params.client_secret);
+  bodyParams.append('code', params.code);
+  bodyParams.append('redirect_uri', params.redirect_uri);
 
   const requestInit: RequestInit = {
     method: 'POST',
-    body: params
+    body: bodyParams
   };
 
   return fetch(tokenUrl, requestInit);
@@ -78,25 +51,13 @@ function saveToken(fetchResponseJSON: any): string {
   }
 }
 
-export default async function process(code: string): Promise<boolean> {
+export async function process(params: Params): Promise<string> {
   try {
-    const promptResponse = await getDataFromPrompt();
-
-    const fetchResponse = await getToken(
-      promptResponse.client_id,
-      promptResponse.client_secret,
-      code,
-      promptResponse.redirectUri
-    );
-
+    const fetchResponse = await getToken(params);
     const fetchResponseJSON = await fetchResponse.json();
 
-    const filenameSaved = saveToken(fetchResponseJSON);
-    console.log(`トークンを ${filenameSaved} に保存しました。`);
+    return saveToken(fetchResponseJSON);
   } catch (reason) {
-    console.log(reason);
-    return false;
+    throw reason;
   }
-
-  return true;
 }

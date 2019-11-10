@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>認証コード発行</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body style="max-width: 1000px; margin: 10px auto;">
+    <h1 style="margin-bottom: 1em;">認証コード発行</h1>
+    <p>
+      認証コードを発行します。必要な情報を入力して「トークンを取得する」ボタンを押してください。
+    </p>
+    <form action="#" method="POST">
+      <div class="form-group">
+        <label for="client_id">Client ID</label>
+        <input
+          class="form-control"
+          type="text"
+          name="client_id"
+          id="client_id"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="client_secret">Client Secret</label>
+        <input
+          class="form-control"
+          type="text"
+          name="client_secret"
+          id="client_secret"
+          required
+        />
+      </div>
+
+      <input
+        type="hidden"
+        name="redirect_uri"
+        id="redirect_uri"
+        value="http://127.0.0.1:8080/"
+      />
+      <input type="hidden" name="code" id="code" value="${code}" />
+      <button class="btn btn-primary" type="submit">トークンを取得する</button>
+    </form>
+  </body>
+</html>
