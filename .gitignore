@@ -1,4 +1,4 @@
 node_modules
 src/freeeapi
-src/token.ts
+src/token.json
 dist/

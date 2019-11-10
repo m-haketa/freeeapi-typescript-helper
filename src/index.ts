@@ -1,10 +1,10 @@
 import * as Api from './freeeapi/api';
+import fs from 'fs';
+import path from 'path';
 
-//token_example.tsのファイル名をtoken.tsに変更して、
-//アクセストークンを入力してください。
-import { accessToken } from './token';
+const configFilename = 'token.json';
 
-async function main(): Promise<boolean> {
+async function sample(accessToken: string): Promise<boolean> {
   //会社一覧取得
   try {
     const companyApi = new Api.CompaniesApi();
@@ -29,6 +29,28 @@ async function main(): Promise<boolean> {
     return false;
   }
   return true;
+}
+
+function main(): void {
+  const filepath = path.join(__dirname, configFilename);
+
+  let tokensJson = '';
+  try {
+    tokensJson = fs.readFileSync(filepath, 'utf-8');
+  } catch (reason) {
+    console.log('トークンの情報（token.json）が取得できませんでした。');
+    console.log('「npm run start:gettoken」で、新しくトークンを取得するか、');
+    console.log(
+      'srcフォルダにある「token_example.json」のファイル名を「token.json」に変えて、取得済みのtokenの情報を入力してください。'
+    );
+    return;
+  }
+
+  const tokens = JSON.parse(tokensJson);
+
+  if ('access_token' in tokens) {
+    sample(tokens.access_token);
+  }
 }
 
 main();
