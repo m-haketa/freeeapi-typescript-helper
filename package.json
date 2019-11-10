@@ -25,7 +25,7 @@
     "demo:copytoken": "cp-cli ./src/token.json ./dist/token.json",
     "demo:node": "node ./dist/index.js",
     "demo": "npm run build && npm run demo:copytoken && npm run demo:node",
-    "gettoken:node": "node ./dist/getToken.js",
+    "gettoken:node": "node ./dist/getAuthCode.js",
     "gettoken": "npm run build && npm run gettoken:node",
     "openapi-generator": "openapi-generator",
     "apibuild:freeeapi": "openapi-generator generate -i https://raw.githubusercontent.com/freee/freee-api-schema/master/open-api-3/api-schema.json -g typescript-node -o src/freeeapi --additional-properties=allowUnicodeIdentifiers=true",

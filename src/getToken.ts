@@ -8,7 +8,7 @@ const tokenUrl = 'https://accounts.secure.freee.co.jp/public_api/token';
 const configFileRelativepath = '../src/token.json';
 
 function getDataFromPrompt(): Promise<
-  prompts.Answers<'client_id' | 'client_secret' | 'code' | 'redirectUri'>
+  prompts.Answers<'client_id' | 'client_secret' | 'redirectUri'>
 > {
   const questions: PromptObject<string>[] = [
     {
@@ -25,11 +25,6 @@ function getDataFromPrompt(): Promise<
       type: 'text',
       name: 'redirectUri',
       message: 'freeeAPIのコールバックURLを入力してください'
-    },
-    {
-      type: 'text',
-      name: 'code',
-      message: 'ブラウザを使って取得した認可コードを入力してください'
     }
   ];
 
@@ -83,14 +78,14 @@ function saveToken(fetchResponseJSON: any): string {
   }
 }
 
-async function main(): Promise<boolean> {
+export default async function process(code: string): Promise<boolean> {
   try {
     const promptResponse = await getDataFromPrompt();
 
     const fetchResponse = await getToken(
       promptResponse.client_id,
       promptResponse.client_secret,
-      promptResponse.code,
+      code,
       promptResponse.redirectUri
     );
 
@@ -105,5 +100,3 @@ async function main(): Promise<boolean> {
 
   return true;
 }
-
-main();
