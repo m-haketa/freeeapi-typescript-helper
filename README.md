@@ -13,7 +13,11 @@
 find xargs patchなどを使っているので、DOSプロンプトやPower Shellでは動かない可能性が高いです。
 
 ### 事前準備
-あらかじめ、[Node.js](https://nodejs.org/ja/)と、[Git BASH](https://gitforwindows.org/)などのlinux用コマンドが使える環境をインストールしてください
+あらかじめ、下記をインストールしておいてください。
+
+- [Node.js](https://nodejs.org/ja/)
+- [Git BASH](https://gitforwindows.org/)
+- [Java JRE](https://java.com/ja/download/)
 
 ### インストール
 
@@ -25,22 +29,17 @@ git BASHで下記のコマンドを実行してください。
 
 <br>
 
-#### 2. JREのインストール
-
-[https://java.com/ja/download/](https://java.com/ja/download/)からJava JREをインストールしてください。
-
-
-#### 3. カレントディレクトリの移動
+#### 2. カレントディレクトリの移動
 `cd freeeapi-typescript-helper`
 
 <br>
 
-#### 4. npmパッケージの（ローカル）インストール
+#### 3. npmパッケージの（ローカル）インストール
 `npm install`
 
 <br>
 
-#### 5. 会計freee TypeScript API Helperに必要なファイルを生成 
+#### 4. 会計freee TypeScript API Helperに必要なファイルを生成 
 `npm run apibuild`
 
 <br>
