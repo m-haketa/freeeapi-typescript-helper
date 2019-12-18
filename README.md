@@ -25,17 +25,22 @@ git BASHで下記のコマンドを実行してください。
 
 <br>
 
-#### 2. カレントディレクトリの移動
+#### 2. JREのインストール
+
+[https://java.com/ja/download/](https://java.com/ja/download/)からJava JREをインストールしてください。
+
+
+#### 3. カレントディレクトリの移動
 `cd freeeapi-typescript-helper`
 
 <br>
 
-#### 3. npmパッケージの（ローカル）インストール
+#### 4. npmパッケージの（ローカル）インストール
 `npm install`
 
 <br>
 
-#### 4. 会計freee TypeScript API Helperに必要なファイルを生成 
+#### 5. 会計freee TypeScript API Helperに必要なファイルを生成 
 `npm run apibuild`
 
 <br>
