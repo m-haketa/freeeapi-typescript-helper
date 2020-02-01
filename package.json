@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^1.0.2-4.2.0",
-    "@types/node": "^12.12.5",
+    "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
+    "@types/node": "^13.7.0",
     "@types/prompts": "^2.0.3",
-    "@typescript-eslint/eslint-plugin": "^2.5.0",
-    "@typescript-eslint/parser": "2.4",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "2.18",
     "cp-cli": "^2.0.0",
-    "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "^1.18.2",
-    "typescript": "^3.7"
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "test": "jest",
@@ -38,11 +38,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@types/node-fetch": "^2.5.3",
-    "@types/request": "^2.48.3",
+    "@types/node-fetch": "^2.5.4",
+    "@types/request": "^2.48.4",
     "node-fetch": "^2.6.0",
-    "prompts": "^2.2.1",
+    "prompts": "^2.3.0",
     "request": "^2.88.0",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.1"
   }
 }
