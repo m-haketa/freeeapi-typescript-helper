@@ -13,7 +13,11 @@
 find xargs patchなどを使っているので、DOSプロンプトやPower Shellでは動かない可能性が高いです。
 
 ### 事前準備
-あらかじめ、[Node.js](https://nodejs.org/ja/)と、[Git BASH](https://gitforwindows.org/)などのlinux用コマンドが使える環境をインストールしてください
+あらかじめ、下記をインストールしておいてください。
+
+- [Node.js](https://nodejs.org/ja/)
+- [Git BASH](https://gitforwindows.org/)
+- [Java JRE](https://java.com/ja/download/)
 
 ### インストール
 
