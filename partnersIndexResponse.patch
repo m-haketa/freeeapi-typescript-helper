@@ -1,9 +1,9 @@
---- ./src/freeeapi/model/partnersIndexResponse.ts	2019-11-09 15:25:01.662009500 +0900
-+++ ./src/freeeapi/model/partnersIndexResponse_patch.ts	2019-11-09 15:29:47.984434700 +0900
-@@ -10,7 +10,8 @@
-  * Do not edit the class manually.
+--- src/freeeapi/model/partnersIndexResponse.ts	2020-02-02 00:54:53.966379800 +0900
++++ src/freeeapi/model/partnersIndexResponse.ts.changed	2020-02-02 00:55:08.203344500 +0900
+@@ -11,7 +11,8 @@
   */
  
+ import { RequestFile } from '../api';
 -import { Partner } from './partner';
 +//import { Partner } from './partner';
 +type Partner = any;
