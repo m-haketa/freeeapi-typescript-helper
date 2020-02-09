@@ -36,13 +36,8 @@ function saveToken(fetchResponseJSON: any): string {
     'access_token' in fetchResponseJSON &&
     'refresh_token' in fetchResponseJSON
   ) {
-    const token = {
-      access_token: fetchResponseJSON.access_token,
-      refresh_token: fetchResponseJSON.refresh_token
-    };
-
     const filename = path.join(__dirname, ...configFileRelativepath.split('/'));
-    fs.writeFileSync(filename, JSON.stringify(token));
+    fs.writeFileSync(filename, JSON.stringify(fetchResponseJSON));
 
     return filename;
   } else {
