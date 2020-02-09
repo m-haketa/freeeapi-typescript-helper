@@ -45,19 +45,8 @@ git BASHで下記のコマンドを実行してください。
 <br>
 
 ### デモの実行
-#### 1. コールバック用プログラムの実行
-`npm run gettoken` を実行してください。
 
-実行すると、下記のように表示されます。
-
-```
-Webアプリ認証用URLをブラウザで開いて、認証を開始してください。
-Ctrl+Cを押すと、コールバックの受け待ちを終了します。
-```
-
-<br>
-
-#### 2. freeeアプリストアへのアプリケーション登録
+#### 1. freeeアプリストアへのアプリケーション登録
 
 `client_id` および `client_secret` を取得するため、freeeアプリストアの開発者ページでアプリケーションを登録します。
 
@@ -71,12 +60,17 @@ Ctrl+Cを押すと、コールバックの受け待ちを終了します。
 
 <br>
 
-#### 3. 認可コードの取得
-認可コードを取得します。
+#### 2. Client ID、Client Secretの取得
 
-下記ページの「認可コードを取得する」を参考に、**Webアプリ認証用URLをブラウザで開いてください**
+下記ページの「1.」で表示されているClient ID、Client Secretを「src/clientid_secret.json」に入力してください。
 
-<br>
+``` json clientid_secret.json
+{
+  "client_id": "ここにCLIENT_IDを入れる",
+  "client_secret": "ここにCLIENT_SECRETを入れる"
+}
+
+```
 
 参考URL↓
 
@@ -84,14 +78,26 @@ Ctrl+Cを押すと、コールバックの受け待ちを終了します。
 
 <br>
 
-#### 4. アクセストークンの取得
+#### 3. 認可コードの取得、コールバック用プログラムの実行
+認可コードを取得します。
 
-- client ID
-- client Secret
+下記ページの「認可コードを取得する」を参考に、**Webアプリ認証用URLをブラウザで開いてください**
 
-を入力する画面に遷移しますので、その2つを入力してください。
+`npm run gettoken` を実行してください。
 
-トークンの情報は「src/token.json」に保存されます。
+実行すると、下記のように表示されます。
+
+```
+Webアプリ認証用URLをブラウザで開いて、認証を開始してください。
+Ctrl+Cを押すと、コールバックの受け待ちを終了します。
+
+Webアプリ認証用URL:
+https://accounts.secure.freee.co.jp/public_api/token/?XXXXX
+```
+
+このメッセージが表示されたら、**最後に表示されたURLを開いてください**。
+
+すると、自動でトークンが取得され、トークンの情報は「src/token.json」に保存されます。
 
 <br>
 
@@ -101,17 +107,33 @@ Ctrl+Cを押すと、コールバックの受け待ちを終了します。
 1. src/token_example.json　ファイルを、src/token.json　にコピー
 2. token.json に取得済みのトークンを入力する
 
-```json
-{"access_token":"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}
+``` json src/token.json
+{
+  "access_token":"XXX",
+  "token_type":"bearer",
+  "expires_in":86400,
+  "refresh_token":"XXX",
+  "scope":"XXX",
+  "created_at":0
+}
 ```
 ↓
-```json
-{"access_token":"abc12345abc12345abc12345abc12345abc12345abc12345abc12345abc12345"}
+``` json src/token.json
+{
+  "access_token":"abc12345abc12345abc12345abc12345abc12345abc12345abc12345abc12345",
+  "token_type":"bearer",
+  "expires_in":86400,
+  "refresh_token":"12345abc12345abc12345abc12345abc12345abc12345abc12345abc12345abc",
+  "scope":"XXX",
+  "created_at":0
+}
 ```
+
+**最低限、access_tokenだけ入力できていれば、デモは動きます**。
 
 <br>
 
-#### 5. デモの実行
+#### 4. デモの実行
 
 `npm run demo`で、デモを実行することができます。
 

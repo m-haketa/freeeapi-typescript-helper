@@ -1,4 +1,5 @@
 node_modules
 src/freeeapi
 src/token.json
+src/clientid_secret.json
 dist/

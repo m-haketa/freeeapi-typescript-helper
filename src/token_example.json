@@ -1,1 +1,8 @@
-{"access_token":"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}
+{
+  "access_token":"XXX",
+  "token_type":"bearer",
+  "expires_in":86400,
+  "refresh_token":"XXX",
+  "scope":"XXX",
+  "created_at":0
+}
