@@ -1,6 +1,6 @@
 node_modules
 src/freeeapi
-src/tokendata.json
-src/clientdata.json
+tokendata.json
+clientdata.json
 dist/
 patch/

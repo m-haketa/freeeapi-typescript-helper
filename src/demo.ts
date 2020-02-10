@@ -1,5 +1,5 @@
 import * as Api from './freeeapi/api';
-import * as Token from './Token';
+import * as Token from './token/Token';
 
 async function sample(accessToken: string): Promise<boolean> {
   //会社一覧取得

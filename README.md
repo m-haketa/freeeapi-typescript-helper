@@ -62,9 +62,9 @@ git BASHで下記のコマンドを実行してください。
 
 #### 2. Client ID、Client Secretの取得
 
-下記ページの「1.」で表示されているClient ID、Client Secretを「src/clientdata.json」に入力してください。
+下記ページの「1.」で表示されているClient ID、Client Secretを「src/token/clientdata.json」に入力してください。
 
-``` json clientiddata.json
+``` json src/token/clientiddata.json
 {
   "client_id": "ここにCLIENT_IDを入れる",
   "client_secret": "ここにCLIENT_SECRETを入れる"
@@ -97,17 +97,17 @@ https://accounts.secure.freee.co.jp/public_api/token/?XXXXX
 
 このメッセージが表示されたら、**最後に表示されたURLを開いてください**。
 
-すると、自動でトークンが取得され、トークンの情報は「src/token.json」に保存されます。
+すると、自動でトークンが取得され、トークンの情報は「src/token/tokendata.json」に保存されます。
 
 <br>
 
 #### ※すでにトークン取得済みの場合
 すでに取得済みのトークンがある場合には、上記1~4の手順の代わりに、次のようにしてトークンの情報を保存してください。
 
-1. src/tokendata_example.json　ファイルを、src/token.json　にコピー
+1. src/token/tokendata_example.json　ファイルを、src/token/tokendata.json　にコピー
 2. tokendata.json に取得済みのトークンを入力する
 
-``` json src/tokendata.json
+``` json src/token/tokendata.json
 {
   "access_token":"XXX",
   "token_type":"bearer",
@@ -118,7 +118,7 @@ https://accounts.secure.freee.co.jp/public_api/token/?XXXXX
 }
 ```
 ↓
-``` json src/tokendata.json
+``` json src/token/tokendata.json
 {
   "access_token":"abc12345abc12345abc12345abc12345abc12345abc12345abc12345abc12345",
   "token_type":"bearer",
