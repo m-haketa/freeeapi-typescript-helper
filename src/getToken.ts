@@ -1,18 +1,10 @@
 import fetch, { RequestInit, Response } from 'node-fetch';
 import { URLSearchParams } from 'url';
-import fs from 'fs';
-import path from 'path';
 import querystring from 'querystring';
 
 import * as State from './State';
 import * as token from './Token';
-
-interface Client {
-  client_id: string;
-  client_secret: string;
-}
-
-const clientid_secretpath = 'clientid_secret.json';
+import * as Client from './Client';
 
 const token_url = 'https://accounts.secure.freee.co.jp/public_api/token';
 const authorize_url =
@@ -25,17 +17,10 @@ function getRedirectUri(): string {
   return `http://${redirect_uri}:${redirect_port}/`;
 }
 
-function getClient(): Client {
-  const filename = path.join(__dirname, clientid_secretpath);
-
-  const ret = JSON.parse(fs.readFileSync(filename, 'utf-8')) as Client;
-  return ret;
-}
-
 async function fetchToGetToken(code: string): Promise<Response> {
   const bodyParams = new URLSearchParams();
 
-  const client = getClient();
+  const client = Client.get();
 
   bodyParams.append('grant_type', 'authorization_code');
   bodyParams.append('client_id', client.client_id);
@@ -55,7 +40,7 @@ async function fetchToRefreshToken(): Promise<Response> {
   const bodyParams = new URLSearchParams();
 
   const refresh_token = token.get().refresh_token;
-  const client = getClient();
+  const client = Client.get();
 
   bodyParams.append('grant_type', 'refresh_token');
   bodyParams.append('client_id', client.client_id);
@@ -71,7 +56,7 @@ async function fetchToRefreshToken(): Promise<Response> {
 }
 
 export function getTokenFromServerUrl(): string {
-  const client = getClient();
+  const client = Client.get();
 
   return (
     authorize_url +
