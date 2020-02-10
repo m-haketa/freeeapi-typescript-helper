@@ -3,6 +3,7 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import * as getToken from './getToken';
+import * as State from './State';
 
 let httpServer: http.Server;
 
@@ -30,7 +31,7 @@ function get(req: http.IncomingMessage, res: http.ServerResponse): void {
   }
 
   try {
-    getToken.checkState(state);
+    State.checkState(state);
   } catch (e) {
     res.end(e.message);
     return;

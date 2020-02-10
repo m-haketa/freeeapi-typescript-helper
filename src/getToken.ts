@@ -4,14 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import querystring from 'querystring';
 
+import * as State from './State';
+
 interface Client {
   client_id: string;
   client_secret: string;
-}
-
-interface State {
-  state: string;
-  timestamp: number;
 }
 
 interface Token {
@@ -25,8 +22,6 @@ interface Token {
 
 const tokenpath = 'token.json';
 const clientid_secretpath = 'clientid_secret.json';
-const statepath = 'state.json';
-const state_expires_in = 600;
 
 const token_url = 'https://accounts.secure.freee.co.jp/public_api/token';
 const authorize_url =
@@ -50,54 +45,6 @@ function getClient(): Client {
 
   const ret = JSON.parse(fs.readFileSync(filename, 'utf-8')) as Client;
   return ret;
-}
-
-function getUnixTime(date: Date): number {
-  return Math.floor(date.getTime() / 1000);
-}
-
-function createStateString(): string {
-  const state_string_length = 16;
-
-  // 生成する文字列に含める文字セット
-  const char = 'abcdefghijklmnopqrstuvwxyz0123456789';
-
-  const char_length = char.length;
-  let state_str = '';
-  for (let i = 0; i < state_string_length; i++) {
-    state_str += char[Math.floor(Math.random() * char_length)];
-  }
-
-  return state_str;
-}
-
-function createState(): string {
-  const state: State = {
-    state: createStateString(),
-    timestamp: getUnixTime(new Date())
-  };
-
-  const filename = path.join(__dirname, statepath);
-  fs.writeFileSync(filename, JSON.stringify(state));
-
-  return state.state;
-}
-
-export function checkState(stateFromServer: string): boolean {
-  const filename = path.join(__dirname, statepath);
-
-  const state = JSON.parse(fs.readFileSync(filename, 'utf-8')) as State;
-  fs.unlinkSync(filename);
-
-  if (state.timestamp + state_expires_in <= getUnixTime(new Date())) {
-    throw new Error('state expired');
-  }
-
-  if (state.state !== stateFromServer) {
-    throw new Error('invalid state');
-  }
-
-  return true;
 }
 
 async function fetchToGetToken(code: string): Promise<Response> {
@@ -164,7 +111,7 @@ export function getTokenFromServerUrl(): string {
       client_id: client.client_id,
       redirect_uri: getRedirectUri(),
       response_type: 'code',
-      state: createState()
+      state: State.createState()
     })
   );
 }
