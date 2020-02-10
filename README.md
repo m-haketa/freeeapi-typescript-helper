@@ -62,9 +62,9 @@ git BASHで下記のコマンドを実行してください。
 
 #### 2. Client ID、Client Secretの取得
 
-下記ページの「1.」で表示されているClient ID、Client Secretを「src/clientid_secret.json」に入力してください。
+下記ページの「1.」で表示されているClient ID、Client Secretを「src/clientdata.json」に入力してください。
 
-``` json clientid_secret.json
+``` json clientiddata.json
 {
   "client_id": "ここにCLIENT_IDを入れる",
   "client_secret": "ここにCLIENT_SECRETを入れる"

@@ -6,7 +6,7 @@ interface Client {
   client_secret: string;
 }
 
-const clientid_secretpath = 'clientid_secret.json';
+const clientid_secretpath = 'clientdata.json';
 
 export function get(): Client {
   const filename = path.join(__dirname, clientid_secretpath);
