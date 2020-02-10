@@ -27,7 +27,7 @@
     "apibuild:replacetype": "find ./src/freeeapi -type f -print0 | xargs -0 sed -i -e \"s/http.ClientResponse/any/\"",
     "apibuild:ignorepartner": "patch ./src/freeeapi/model/partnersIndexResponse.ts < ./partnersIndexResponse.patch",
     "apibuild": "npm run apibuild:freeeapi && npm run apibuild:replacetype && npm run apibuild:ignorepartner",
-    "demo": "ts-node ./src/index.ts",
+    "demo": "ts-node ./src/demo.ts",
     "gettoken": "ts-node ./src/getToken.ts",
     "refreshtoken": "ts-node ./src/refreshToken.ts"
   },
