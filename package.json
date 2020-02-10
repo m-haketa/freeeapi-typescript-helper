@@ -22,13 +22,8 @@
     "clean": "rimraf ./dist",
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
-    "demo:copytoken": "cp-cli ./src/token.json ./dist/token.json",
-    "demo:node": "node ./dist/index.js",
-    "demo": "npm run build && npm run demo:copytoken && npm run demo:node",
-    "gettoken:node": "node ./dist/getAuthCode.js",
-    "gettoken:copyidsecret": "cp-cli ./src/clientid_secret.json ./dist/clientid_secret.json",
-    "gettoken:copyhtml": "cp-cli ./src/post.html ./dist/post.html",
-    "gettoken": "npm run build && npm run gettoken:copyhtml && npm run gettoken:copyidsecret && npm run gettoken:node",
+    "demo": "ts-node ./src/index.ts",
+    "gettoken": "ts-node ./src/getAuthCode.ts",
     "openapi-generator": "openapi-generator",
     "apibuild:freeeapi": "openapi-generator generate -i https://raw.githubusercontent.com/freee/freee-api-schema/master/open-api-3/api-schema.json -g typescript-node -o src/freeeapi --additional-properties=allowUnicodeIdentifiers=true",
     "apibuild:replacetype": "find ./src/freeeapi -type f -print0 | xargs -0 sed -i -e \"s/http.ClientResponse/any/\"",
@@ -44,6 +39,7 @@
     "node-fetch": "^2.6.0",
     "prompts": "^2.3.0",
     "request": "^2.88.0",
-    "rimraf": "^3.0.1"
+    "rimraf": "^3.0.1",
+    "ts-node": "^8.6.2"
   }
 }
