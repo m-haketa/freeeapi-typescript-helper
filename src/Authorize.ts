@@ -17,7 +17,7 @@ function getRedirectUri(): string {
   return `http://${redirect_uri}:${redirect_port}/`;
 }
 
-async function fetchToGetToken(code: string): Promise<Response> {
+async function fetchToken(code: string): Promise<Response> {
   const bodyParams = new URLSearchParams();
 
   const client = Client.get();
@@ -36,7 +36,7 @@ async function fetchToGetToken(code: string): Promise<Response> {
   return fetch(token_url, requestInit);
 }
 
-async function fetchToRefreshToken(): Promise<Response> {
+async function fetchRefreshToken(): Promise<Response> {
   const bodyParams = new URLSearchParams();
 
   const refresh_token = Token.get().refresh_token;
@@ -55,7 +55,7 @@ async function fetchToRefreshToken(): Promise<Response> {
   return fetch(token_url, requestInit);
 }
 
-export function getTokenFromServerUrl(): string {
+export function getUrl(): string {
   const client = Client.get();
 
   return (
@@ -70,8 +70,8 @@ export function getTokenFromServerUrl(): string {
   );
 }
 
-export async function getTokenFromServer(code: string): Promise<string> {
-  const fetchResponse = await fetchToGetToken(code).catch(r => {
+export async function getToken(code: string): Promise<string> {
+  const fetchResponse = await fetchToken(code).catch(r => {
     throw r;
   });
   const fetchResponseJSON = await fetchResponse.json().catch(r => {
@@ -81,8 +81,8 @@ export async function getTokenFromServer(code: string): Promise<string> {
   return Token.set(fetchResponseJSON);
 }
 
-export async function refreshTokenFromServer(): Promise<string> {
-  const fetchResponse = await fetchToRefreshToken().catch(r => {
+export async function refreshToken(): Promise<string> {
+  const fetchResponse = await fetchRefreshToken().catch(r => {
     throw r;
   });
 
