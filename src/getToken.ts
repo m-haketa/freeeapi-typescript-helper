@@ -151,7 +151,7 @@ export async function getToken(code: string): Promise<string> {
   return saveToken(fetchResponseJSON);
 }
 
-function getTokenFromFile(): Token {
+export function getTokenFromFile(): Token {
   const filename = path.join(__dirname, tokenpath);
 
   return JSON.parse(fs.readFileSync(filename, 'utf-8')) as Token;
