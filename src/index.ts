@@ -29,7 +29,7 @@ async function sample(accessToken: string): Promise<boolean> {
 }
 
 function main(): void {
-  const token = getToken.getTokenFromFile();
+  const token = getToken.getToken();
   sample(token.access_token);
 }
 

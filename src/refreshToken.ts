@@ -1,7 +1,7 @@
 import * as getToken from './getToken';
 
 function main(): void {
-  console.log(getToken.refreshToken());
+  console.log(getToken.refreshTokenFromServer());
 }
 
 main();

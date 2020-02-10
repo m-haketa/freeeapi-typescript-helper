@@ -35,15 +35,25 @@ const authorize_url =
 export const redirect_uri = '127.0.0.1';
 export const redirect_port = 8080;
 
+export function getToken(): Token {
+  const filename = path.join(__dirname, tokenpath);
+
+  return JSON.parse(fs.readFileSync(filename, 'utf-8')) as Token;
+}
+
 function getRedirectUri(): string {
   return `http://${redirect_uri}:${redirect_port}/`;
 }
 
-function getID_Secret(): Client {
+function getClient(): Client {
   const filename = path.join(__dirname, clientid_secretpath);
 
   const ret = JSON.parse(fs.readFileSync(filename, 'utf-8')) as Client;
   return ret;
+}
+
+function getUnixTime(date: Date): number {
+  return Math.floor(date.getTime() / 1000);
 }
 
 function createStateString(): string {
@@ -61,10 +71,6 @@ function createStateString(): string {
   return state_str;
 }
 
-function getUnixTime(date: Date): number {
-  return Math.floor(date.getTime() / 1000);
-}
-
 function createState(): string {
   const state: State = {
     state: createStateString(),
@@ -75,56 +81,6 @@ function createState(): string {
   fs.writeFileSync(filename, JSON.stringify(state));
 
   return state.state;
-}
-
-async function getTokenFromServer(code: string): Promise<Response> {
-  const bodyParams = new URLSearchParams();
-
-  const client = getID_Secret();
-
-  bodyParams.append('grant_type', 'authorization_code');
-  bodyParams.append('client_id', client.client_id);
-  bodyParams.append('client_secret', client.client_secret);
-  bodyParams.append('code', code);
-  bodyParams.append('redirect_uri', getRedirectUri());
-
-  const requestInit: RequestInit = {
-    method: 'POST',
-    body: bodyParams
-  };
-
-  return fetch(token_url, requestInit);
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function saveToken(fetchResponseJSON: any): string {
-  if (
-    'access_token' in fetchResponseJSON &&
-    'refresh_token' in fetchResponseJSON
-  ) {
-    const filename = path.join(__dirname, tokenpath);
-    fs.writeFileSync(filename, JSON.stringify(fetchResponseJSON));
-
-    return filename;
-  } else {
-    throw '処理が正常に終わりませんでした。' +
-      JSON.stringify(fetchResponseJSON);
-  }
-}
-
-export function getTokenUrl(): string {
-  const client = getID_Secret();
-
-  return (
-    authorize_url +
-    '?' +
-    querystring.stringify({
-      client_id: client.client_id,
-      redirect_uri: getRedirectUri(),
-      response_type: 'code',
-      state: createState()
-    })
-  );
 }
 
 export function checkState(stateFromServer: string): boolean {
@@ -144,24 +100,30 @@ export function checkState(stateFromServer: string): boolean {
   return true;
 }
 
-export async function getToken(code: string): Promise<string> {
-  const fetchResponse = await getTokenFromServer(code);
-  const fetchResponseJSON = await fetchResponse.json();
-
-  return saveToken(fetchResponseJSON);
-}
-
-export function getTokenFromFile(): Token {
-  const filename = path.join(__dirname, tokenpath);
-
-  return JSON.parse(fs.readFileSync(filename, 'utf-8')) as Token;
-}
-
-async function getRefreshTokenFromServer(): Promise<Response> {
+async function fetchToGetToken(code: string): Promise<Response> {
   const bodyParams = new URLSearchParams();
 
-  const refresh_token = getTokenFromFile().refresh_token;
-  const client = getID_Secret();
+  const client = getClient();
+
+  bodyParams.append('grant_type', 'authorization_code');
+  bodyParams.append('client_id', client.client_id);
+  bodyParams.append('client_secret', client.client_secret);
+  bodyParams.append('code', code);
+  bodyParams.append('redirect_uri', getRedirectUri());
+
+  const requestInit: RequestInit = {
+    method: 'POST',
+    body: bodyParams
+  };
+
+  return fetch(token_url, requestInit);
+}
+
+async function fetchToRefreshToken(): Promise<Response> {
+  const bodyParams = new URLSearchParams();
+
+  const refresh_token = getToken().refresh_token;
+  const client = getClient();
 
   bodyParams.append('grant_type', 'refresh_token');
   bodyParams.append('client_id', client.client_id);
@@ -176,14 +138,52 @@ async function getRefreshTokenFromServer(): Promise<Response> {
   return fetch(token_url, requestInit);
 }
 
-export async function refreshToken(): Promise<string> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function saveTokenToFile(fetchResponseJSON: any): string {
+  if (
+    'access_token' in fetchResponseJSON &&
+    'refresh_token' in fetchResponseJSON
+  ) {
+    const filename = path.join(__dirname, tokenpath);
+    fs.writeFileSync(filename, JSON.stringify(fetchResponseJSON));
+
+    return filename;
+  } else {
+    throw '処理が正常に終わりませんでした。' +
+      JSON.stringify(fetchResponseJSON);
+  }
+}
+
+export function getTokenFromServerUrl(): string {
+  const client = getClient();
+
+  return (
+    authorize_url +
+    '?' +
+    querystring.stringify({
+      client_id: client.client_id,
+      redirect_uri: getRedirectUri(),
+      response_type: 'code',
+      state: createState()
+    })
+  );
+}
+
+export async function getTokenFromServer(code: string): Promise<string> {
+  const fetchResponse = await fetchToGetToken(code);
+  const fetchResponseJSON = await fetchResponse.json();
+
+  return saveTokenToFile(fetchResponseJSON);
+}
+
+export async function refreshTokenFromServer(): Promise<string> {
   try {
-    const fetchResponse = await getRefreshTokenFromServer();
+    const fetchResponse = await fetchToRefreshToken();
     const fetchResponseJSON = await fetchResponse.json();
 
     console.log(JSON.stringify(fetchResponseJSON));
 
-    return saveToken(fetchResponseJSON);
+    return saveTokenToFile(fetchResponseJSON);
   } catch (reason) {
     throw reason;
   }

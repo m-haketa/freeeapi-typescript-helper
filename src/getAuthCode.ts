@@ -39,7 +39,7 @@ function get(req: http.IncomingMessage, res: http.ServerResponse): void {
   res.writeHead(200, { 'Content-Type': 'text/html' });
 
   getToken
-    .getToken(code)
+    .getTokenFromServer(code)
     .then(filepath => {
       const html = postHtmlTemplate(
         'トークンの取得処理が完了しました',
@@ -71,7 +71,7 @@ function main(): void {
   console.log('Webアプリ認証用URLをブラウザで開いて、認証を開始してください。');
   console.log('Ctrl+Cを押すと、コールバックの受け待ちを終了します。');
   console.log('Webアプリ認証用URL:\n');
-  console.log(getToken.getTokenUrl());
+  console.log(getToken.getTokenFromServerUrl());
 }
 
 main();
