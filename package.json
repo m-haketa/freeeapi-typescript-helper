@@ -28,7 +28,7 @@
     "apibuild:ignorepartner": "patch ./src/freeeapi/model/partnersIndexResponse.ts < ./partnersIndexResponse.patch",
     "apibuild": "npm run apibuild:freeeapi && npm run apibuild:replacetype && npm run apibuild:ignorepartner",
     "demo": "ts-node ./src/index.ts",
-    "gettoken": "ts-node ./src/getAuthCode.ts",
+    "gettoken": "ts-node ./src/getToken.ts",
     "refreshtoken": "ts-node ./src/refreshToken.ts"
   },
   "keywords": [],
