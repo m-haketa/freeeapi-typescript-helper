@@ -31,7 +31,7 @@ function get(req: http.IncomingMessage, res: http.ServerResponse): void {
   }
 
   try {
-    State.checkState(state);
+    State.check(state);
   } catch (e) {
     res.end(e.message);
     return;

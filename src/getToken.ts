@@ -80,7 +80,7 @@ export function getTokenFromServerUrl(): string {
       client_id: client.client_id,
       redirect_uri: getRedirectUri(),
       response_type: 'code',
-      state: State.createState()
+      state: State.create()
     })
   );
 }

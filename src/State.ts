@@ -28,7 +28,7 @@ function createStateString(): string {
   return state_str;
 }
 
-export function createState(): string {
+export function create(): string {
   const state: State = {
     state: createStateString(),
     timestamp: getUnixTime(new Date())
@@ -40,7 +40,7 @@ export function createState(): string {
   return state.state;
 }
 
-export function checkState(stateFromServer: string): boolean {
+export function check(stateFromServer: string): boolean {
   const filename = path.join(__dirname, statepath);
 
   const state = JSON.parse(fs.readFileSync(filename, 'utf-8')) as State;
