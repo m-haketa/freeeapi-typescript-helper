@@ -6,7 +6,7 @@ interface State {
   timestamp: number;
 }
 
-const statepath = 'state.json';
+const statepath = 'statedata.json';
 const state_expires_in = 600;
 
 function getUnixTime(date: Date): number {

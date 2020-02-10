@@ -104,10 +104,10 @@ https://accounts.secure.freee.co.jp/public_api/token/?XXXXX
 #### ※すでにトークン取得済みの場合
 すでに取得済みのトークンがある場合には、上記1~4の手順の代わりに、次のようにしてトークンの情報を保存してください。
 
-1. src/token_example.json　ファイルを、src/token.json　にコピー
-2. token.json に取得済みのトークンを入力する
+1. src/tokendata_example.json　ファイルを、src/token.json　にコピー
+2. tokendata.json に取得済みのトークンを入力する
 
-``` json src/token.json
+``` json src/tokendata.json
 {
   "access_token":"XXX",
   "token_type":"bearer",
@@ -118,7 +118,7 @@ https://accounts.secure.freee.co.jp/public_api/token/?XXXXX
 }
 ```
 ↓
-``` json src/token.json
+``` json src/tokendata.json
 {
   "access_token":"abc12345abc12345abc12345abc12345abc12345abc12345abc12345abc12345",
   "token_type":"bearer",
