@@ -1,5 +1,5 @@
 import * as Api from './freeeapi/api';
-import * as Token from './Token';
+import * as getToken from './getToken';
 
 async function sample(accessToken: string): Promise<boolean> {
   //会社一覧取得
@@ -29,7 +29,7 @@ async function sample(accessToken: string): Promise<boolean> {
 }
 
 function main(): void {
-  const token = Token.getToken();
+  const token = getToken.getToken();
   sample(token.access_token);
 }
 

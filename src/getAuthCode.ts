@@ -2,7 +2,7 @@ import http from 'http';
 import url from 'url';
 import fs from 'fs';
 import path from 'path';
-import * as Token from './Token';
+import * as getToken from './getToken';
 
 let httpServer: http.Server;
 
@@ -30,7 +30,7 @@ function get(req: http.IncomingMessage, res: http.ServerResponse): void {
   }
 
   try {
-    Token.checkState(state);
+    getToken.checkState(state);
   } catch (e) {
     res.end(e.message);
     return;
@@ -38,7 +38,8 @@ function get(req: http.IncomingMessage, res: http.ServerResponse): void {
 
   res.writeHead(200, { 'Content-Type': 'text/html' });
 
-  Token.getTokenFromServer(code)
+  getToken
+    .getTokenFromServer(code)
     .then(filepath => {
       const html = postHtmlTemplate(
         'トークンの取得処理が完了しました',
@@ -65,12 +66,12 @@ function server(req: http.IncomingMessage, res: http.ServerResponse): void {
 
 function main(): void {
   httpServer = http.createServer(server);
-  httpServer.listen(Token.redirect_port, Token.redirect_uri);
+  httpServer.listen(getToken.redirect_port, getToken.redirect_uri);
 
   console.log('Webアプリ認証用URLをブラウザで開いて、認証を開始してください。');
   console.log('Ctrl+Cを押すと、コールバックの受け待ちを終了します。');
   console.log('Webアプリ認証用URL:\n');
-  console.log(Token.getTokenFromServerUrl());
+  console.log(getToken.getTokenFromServerUrl());
 }
 
 main();

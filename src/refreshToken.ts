@@ -1,7 +1,7 @@
-import * as Token from './Token';
+import * as getToken from './getToken';
 
 function main(): void {
-  Token.refreshTokenFromServer();
+  getToken.refreshTokenFromServer();
   console.log('tokenをrefreshしました');
 }
 
