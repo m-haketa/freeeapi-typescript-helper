@@ -22,13 +22,14 @@
     "clean": "rimraf ./dist",
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
-    "demo": "ts-node ./src/index.ts",
-    "gettoken": "ts-node ./src/getAuthCode.ts",
     "openapi-generator": "openapi-generator",
     "apibuild:freeeapi": "openapi-generator generate -i https://raw.githubusercontent.com/freee/freee-api-schema/master/open-api-3/api-schema.json -g typescript-node -o src/freeeapi --additional-properties=allowUnicodeIdentifiers=true",
     "apibuild:replacetype": "find ./src/freeeapi -type f -print0 | xargs -0 sed -i -e \"s/http.ClientResponse/any/\"",
     "apibuild:ignorepartner": "patch ./src/freeeapi/model/partnersIndexResponse.ts < ./partnersIndexResponse.patch",
-    "apibuild": "npm run apibuild:freeeapi && npm run apibuild:replacetype && npm run apibuild:ignorepartner"
+    "apibuild": "npm run apibuild:freeeapi && npm run apibuild:replacetype && npm run apibuild:ignorepartner",
+    "demo": "ts-node ./src/index.ts",
+    "gettoken": "ts-node ./src/getAuthCode.ts",
+    "refreshtoken": "ts-node ./src/refreshToken.ts"
   },
   "keywords": [],
   "author": "",

@@ -14,6 +14,15 @@ interface State {
   timestamp: number;
 }
 
+interface Token {
+  access_token: string;
+  token_type: 'bearer';
+  expires_in: number;
+  refresh_token: string;
+  scope: string;
+  createdat: number;
+}
+
 const tokenpath = 'token.json';
 const clientid_secretpath = 'clientid_secret.json';
 const statepath = 'state.json';
@@ -140,4 +149,42 @@ export async function getToken(code: string): Promise<string> {
   const fetchResponseJSON = await fetchResponse.json();
 
   return saveToken(fetchResponseJSON);
+}
+
+function getTokenFromFile(): Token {
+  const filename = path.join(__dirname, tokenpath);
+
+  return JSON.parse(fs.readFileSync(filename, 'utf-8')) as Token;
+}
+
+async function getRefreshTokenFromServer(): Promise<Response> {
+  const bodyParams = new URLSearchParams();
+
+  const refresh_token = getTokenFromFile().refresh_token;
+  const client = getID_Secret();
+
+  bodyParams.append('grant_type', 'refresh_token');
+  bodyParams.append('client_id', client.client_id);
+  bodyParams.append('client_secret', client.client_secret);
+  bodyParams.append('refresh_token', refresh_token);
+
+  const requestInit: RequestInit = {
+    method: 'POST',
+    body: bodyParams
+  };
+
+  return fetch(token_url, requestInit);
+}
+
+export async function refreshToken(): Promise<string> {
+  try {
+    const fetchResponse = await getRefreshTokenFromServer();
+    const fetchResponseJSON = await fetchResponse.json();
+
+    console.log(JSON.stringify(fetchResponseJSON));
+
+    return saveToken(fetchResponseJSON);
+  } catch (reason) {
+    throw reason;
+  }
 }
