@@ -56,7 +56,7 @@ function getUnixTime(date: Date): number {
   return Math.floor(date.getTime() / 1000);
 }
 
-export function createState(): string {
+function createState(): string {
   const state: State = {
     state: createStateString(),
     timestamp: getUnixTime(new Date())
@@ -103,7 +103,7 @@ function saveToken(fetchResponseJSON: any): string {
   }
 }
 
-export function getTokenURL(): string {
+export function getTokenUrl(): string {
   const client = getID_Secret();
 
   return (
@@ -135,13 +135,9 @@ export function checkState(stateFromServer: string): boolean {
   return true;
 }
 
-export async function process(code: string): Promise<string> {
-  try {
-    const fetchResponse = await getTokenFromServer(code);
-    const fetchResponseJSON = await fetchResponse.json();
+export async function getToken(code: string): Promise<string> {
+  const fetchResponse = await getTokenFromServer(code);
+  const fetchResponseJSON = await fetchResponse.json();
 
-    return saveToken(fetchResponseJSON);
-  } catch (reason) {
-    throw reason;
-  }
+  return saveToken(fetchResponseJSON);
 }
