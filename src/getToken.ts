@@ -181,8 +181,6 @@ export async function refreshTokenFromServer(): Promise<string> {
     const fetchResponse = await fetchToRefreshToken();
     const fetchResponseJSON = await fetchResponse.json();
 
-    console.log(JSON.stringify(fetchResponseJSON));
-
     return saveTokenToFile(fetchResponseJSON);
   } catch (reason) {
     throw reason;
