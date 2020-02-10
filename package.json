@@ -5,7 +5,8 @@
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
     "@types/node": "^13.7.0",
-    "@types/prompts": "^2.0.3",
+    "@types/request": "^2.48.4",
+    "@types/node-fetch": "^2.5.4",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "2.18",
     "cp-cli": "^2.0.0",
@@ -35,10 +36,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@types/node-fetch": "^2.5.4",
-    "@types/request": "^2.48.4",
     "node-fetch": "^2.6.0",
-    "prompts": "^2.3.0",
     "request": "^2.88.0",
     "rimraf": "^3.0.1",
     "ts-node": "^8.6.2"
