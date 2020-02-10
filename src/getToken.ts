@@ -2,13 +2,7 @@ import fetch, { RequestInit, Response } from 'node-fetch';
 import { URLSearchParams } from 'url';
 import fs from 'fs';
 import path from 'path';
-
-export interface Params {
-  redirect_uri: string;
-  client_id: string;
-  client_secret: string;
-  code: string;
-}
+import querystring from 'querystring';
 
 interface Client {
   client_id: string;
@@ -25,25 +19,22 @@ const clientid_secretpath = 'clientid_secret.json';
 const statepath = 'state.json';
 const state_expires_in = 600;
 
-export const token_url = 'https://accounts.secure.freee.co.jp/public_api/token';
-export const authorize_url =
+const token_url = 'https://accounts.secure.freee.co.jp/public_api/token';
+const authorize_url =
   'https://accounts.secure.freee.co.jp/public_api/authorize';
+
 export const redirect_uri = '127.0.0.1';
 export const redirect_port = 8080;
 
-export function getID_Secret(): Client {
-  const filename = path.join(__dirname, clientid_secretpath);
-
-  try {
-    const ret = JSON.parse(fs.readFileSync(filename, 'utf-8')) as Client;
-    return ret;
-  } catch (e) {
-    throw e;
-  }
+function getRedirectUri(): string {
+  return `http://${redirect_uri}:${redirect_port}/`;
 }
 
-export function getRedirectUri(): string {
-  return `http://${redirect_uri}:${redirect_port}/`;
+function getID_Secret(): Client {
+  const filename = path.join(__dirname, clientid_secretpath);
+
+  const ret = JSON.parse(fs.readFileSync(filename, 'utf-8')) as Client;
+  return ret;
 }
 
 function createStateString(): string {
@@ -75,23 +66,6 @@ export function createState(): string {
   fs.writeFileSync(filename, JSON.stringify(state));
 
   return state.state;
-}
-
-export function checkState(stateFromServer: string): boolean {
-  const filename = path.join(__dirname, statepath);
-
-  const state = JSON.parse(fs.readFileSync(filename, 'utf-8')) as State;
-  fs.unlinkSync(filename);
-
-  if (state.timestamp + state_expires_in <= getUnixTime(new Date())) {
-    throw new Error('state expired');
-  }
-
-  if (state.state !== stateFromServer) {
-    throw new Error('invalid state');
-  }
-
-  return true;
 }
 
 async function getToken(code: string): Promise<Response> {
@@ -127,6 +101,38 @@ function saveToken(fetchResponseJSON: any): string {
     throw '処理が正常に終わりませんでした。' +
       JSON.stringify(fetchResponseJSON);
   }
+}
+
+export function getTokenURL(): string {
+  const client = getID_Secret();
+
+  return (
+    authorize_url +
+    '?' +
+    querystring.stringify({
+      client_id: client.client_id,
+      redirect_uri: getRedirectUri(),
+      response_type: 'code',
+      state: createState()
+    })
+  );
+}
+
+export function checkState(stateFromServer: string): boolean {
+  const filename = path.join(__dirname, statepath);
+
+  const state = JSON.parse(fs.readFileSync(filename, 'utf-8')) as State;
+  fs.unlinkSync(filename);
+
+  if (state.timestamp + state_expires_in <= getUnixTime(new Date())) {
+    throw new Error('state expired');
+  }
+
+  if (state.state !== stateFromServer) {
+    throw new Error('invalid state');
+  }
+
+  return true;
 }
 
 export async function process(code: string): Promise<string> {

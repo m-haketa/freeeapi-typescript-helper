@@ -1,6 +1,5 @@
 import http from 'http';
 import url from 'url';
-import querystring from 'querystring';
 import fs from 'fs';
 import path from 'path';
 import * as getToken from './getToken';
@@ -72,19 +71,7 @@ function main(): void {
   console.log('Webアプリ認証用URLをブラウザで開いて、認証を開始してください。');
   console.log('Ctrl+Cを押すと、コールバックの受け待ちを終了します。');
   console.log('Webアプリ認証用URL:\n');
-
-  const client = getToken.getID_Secret();
-
-  console.log(
-    getToken.authorize_url +
-      '?' +
-      querystring.stringify({
-        client_id: client.client_id,
-        redirect_uri: getToken.getRedirectUri(),
-        response_type: 'code',
-        state: getToken.createState()
-      })
-  );
+  console.log(getToken.getTokenURL());
 }
 
 main();
