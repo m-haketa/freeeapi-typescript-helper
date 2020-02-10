@@ -14,7 +14,7 @@ interface State {
   timestamp: number;
 }
 
-const configpath = 'token.json';
+const tokenpath = 'token.json';
 const clientid_secretpath = 'clientid_secret.json';
 const statepath = 'state.json';
 const state_expires_in = 600;
@@ -68,7 +68,7 @@ export function createState(): string {
   return state.state;
 }
 
-async function getToken(code: string): Promise<Response> {
+async function getTokenFromServer(code: string): Promise<Response> {
   const bodyParams = new URLSearchParams();
 
   const client = getID_Secret();
@@ -93,7 +93,7 @@ function saveToken(fetchResponseJSON: any): string {
     'access_token' in fetchResponseJSON &&
     'refresh_token' in fetchResponseJSON
   ) {
-    const filename = path.join(__dirname, configpath);
+    const filename = path.join(__dirname, tokenpath);
     fs.writeFileSync(filename, JSON.stringify(fetchResponseJSON));
 
     return filename;
@@ -137,7 +137,7 @@ export function checkState(stateFromServer: string): boolean {
 
 export async function process(code: string): Promise<string> {
   try {
-    const fetchResponse = await getToken(code);
+    const fetchResponse = await getTokenFromServer(code);
     const fetchResponseJSON = await fetchResponse.json();
 
     return saveToken(fetchResponseJSON);
