@@ -18,16 +18,22 @@ function get(req: http.IncomingMessage, res: http.ServerResponse): void {
   const requestUrl = req.url || '';
   const query = url.parse(requestUrl, true).query;
 
-  if (!('code' in query)) {
-    res.writeHead(400, { 'Content-Type': 'text/html' });
-    res.end('');
+  if (!('code' in query) || !('state' in query)) {
+    res.end('no code or state in querystring');
     return;
   }
 
-  const code = query.code;
-  if (code instanceof Array) {
-    res.writeHead(400, { 'Content-Type': 'text/html' });
-    res.end('');
+  const { code, state } = query;
+
+  if (code instanceof Array || state instanceof Array) {
+    res.end('invalid querystring');
+    return;
+  }
+
+  try {
+    getToken.checkState(state);
+  } catch (e) {
+    res.end(e.message);
     return;
   }
 
@@ -75,7 +81,8 @@ function main(): void {
       querystring.stringify({
         client_id: client.client_id,
         redirect_uri: getToken.getRedirectUri(),
-        response_type: 'code'
+        response_type: 'code',
+        state: getToken.createState()
       })
   );
 }
