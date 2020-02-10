@@ -3,7 +3,7 @@ import { URLSearchParams } from 'url';
 import querystring from 'querystring';
 
 import * as State from './State';
-import * as token from './Token';
+import * as Token from './Token';
 import * as Client from './Client';
 
 const token_url = 'https://accounts.secure.freee.co.jp/public_api/token';
@@ -39,7 +39,7 @@ async function fetchToGetToken(code: string): Promise<Response> {
 async function fetchToRefreshToken(): Promise<Response> {
   const bodyParams = new URLSearchParams();
 
-  const refresh_token = token.get().refresh_token;
+  const refresh_token = Token.get().refresh_token;
   const client = Client.get();
 
   bodyParams.append('grant_type', 'refresh_token');
@@ -78,7 +78,7 @@ export async function getTokenFromServer(code: string): Promise<string> {
     throw r;
   });
 
-  return token.set(fetchResponseJSON);
+  return Token.set(fetchResponseJSON);
 }
 
 export async function refreshTokenFromServer(): Promise<string> {
@@ -90,5 +90,5 @@ export async function refreshTokenFromServer(): Promise<string> {
     throw r;
   });
 
-  return token.set(fetchResponseJSON);
+  return Token.set(fetchResponseJSON);
 }
