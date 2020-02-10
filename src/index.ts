@@ -7,7 +7,9 @@ async function sample(accessToken: string): Promise<boolean> {
     const companyApi = new Api.CompaniesApi();
     companyApi.accessToken = accessToken;
 
-    const companyRoot = await companyApi.getCompanies();
+    const companyRoot = await companyApi.getCompanies().catch(r => {
+      throw r;
+    });
     console.log('---会社一覧---');
     console.log(companyRoot.body.companies);
 
@@ -18,7 +20,9 @@ async function sample(accessToken: string): Promise<boolean> {
     const trialBsApi = new Api.TrialBalanceApi();
     trialBsApi.accessToken = accessToken;
 
-    const trialBsRoot = await trialBsApi.getTrialBs(companyId);
+    const trialBsRoot = await trialBsApi.getTrialBs(companyId).catch(r => {
+      throw r;
+    });
     console.log('---試算表(BS)---');
     console.log(trialBsRoot.body.trialBs);
   } catch (reason) {

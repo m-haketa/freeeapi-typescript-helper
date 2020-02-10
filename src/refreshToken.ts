@@ -1,7 +1,9 @@
 import * as getToken from './getToken';
 
-function main(): void {
-  getToken.refreshTokenFromServer();
+async function main(): Promise<void> {
+  await getToken.refreshTokenFromServer().catch(r => {
+    throw r;
+  });
   console.log('tokenをrefreshしました');
 }
 

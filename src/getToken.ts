@@ -86,19 +86,24 @@ export function getTokenFromServerUrl(): string {
 }
 
 export async function getTokenFromServer(code: string): Promise<string> {
-  const fetchResponse = await fetchToGetToken(code);
-  const fetchResponseJSON = await fetchResponse.json();
+  const fetchResponse = await fetchToGetToken(code).catch(r => {
+    throw r;
+  });
+  const fetchResponseJSON = await fetchResponse.json().catch(r => {
+    throw r;
+  });
 
   return token.set(fetchResponseJSON);
 }
 
 export async function refreshTokenFromServer(): Promise<string> {
-  try {
-    const fetchResponse = await fetchToRefreshToken();
-    const fetchResponseJSON = await fetchResponse.json();
+  const fetchResponse = await fetchToRefreshToken().catch(r => {
+    throw r;
+  });
 
-    return token.set(fetchResponseJSON);
-  } catch (reason) {
-    throw reason;
-  }
+  const fetchResponseJSON = await fetchResponse.json().catch(r => {
+    throw r;
+  });
+
+  return token.set(fetchResponseJSON);
 }
