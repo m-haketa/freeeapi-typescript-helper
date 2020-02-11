@@ -7,7 +7,7 @@ interface Token {
   expires_in: number;
   refresh_token: string;
   scope: string;
-  createdat: number;
+  created_at: number;
 }
 
 const tokenpath = 'tokendata.json';
