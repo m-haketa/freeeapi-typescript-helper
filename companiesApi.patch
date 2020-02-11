@@ -1,0 +1,11 @@
+--- ../freeeapi/api/companiesApi.ts	2020-02-11 18:24:52.556778500 +0900
++++ companiesApi.ts.changed	2020-02-11 18:26:38.863000000 +0900
+@@ -263,7 +263,7 @@ export class CompaniesApi {
+                     if (error) {
+                         reject(error);
+                     } else {
+-                        body = ObjectSerializer.deserialize(body, "CompaniesShowResponse");
++                        //body = ObjectSerializer.deserialize(body, "CompaniesShowResponse");
+                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                             resolve({ response: response, body: body });
+                         } else {

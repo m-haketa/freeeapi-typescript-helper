@@ -1,5 +1,5 @@
---- src/freeeapi/model/partnersIndexResponse.ts	2020-02-02 00:54:53.966379800 +0900
-+++ src/freeeapi/model/partnersIndexResponse.ts.changed	2020-02-02 00:55:08.203344500 +0900
+--- ../freeeapi/model/partnersIndexResponse.ts	2020-02-11 18:24:48.940320800 +0900
++++ partnersIndexResponse.ts.changed	2020-02-11 18:25:35.910000000 +0900
 @@ -11,7 +11,8 @@
   */
  
