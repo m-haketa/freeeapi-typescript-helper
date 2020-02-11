@@ -12,9 +12,10 @@ const authorize_url =
 
 export const redirect_uri = '127.0.0.1';
 export const redirect_port = 8080;
+export const redirect_path = '/';
 
 function getRedirectUri(): string {
-  return `http://${redirect_uri}:${redirect_port}/`;
+  return `http://${redirect_uri}:${redirect_port}${redirect_path}`;
 }
 
 async function fetchToken(code: string): Promise<Response> {
