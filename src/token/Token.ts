@@ -26,9 +26,6 @@ export function set(tokendata: Token): string {
 
     return filename;
   } else {
-    throw new Error(
-      'トークンの出力には、access_token、refresh_tokenフィールドが最低限必要です。' +
-        JSON.stringify(tokendata)
-    );
+    throw new Error(JSON.stringify(tokendata));
   }
 }
