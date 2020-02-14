@@ -26,6 +26,7 @@
     "build": "npm run clean && npm run tsc",
     "openapi-generator": "openapi-generator",
     "openapi-generator:freeeapi": "openapi-generator generate -i https://raw.githubusercontent.com/freee/freee-api-schema/master/open-api-3/api-schema.json -g typescript-node -o src/freeeapi --additional-properties=allowUnicodeIdentifiers=true",
+    "openapi-generator:freeeapi_caseoriginal": "openapi-generator generate -i https://raw.githubusercontent.com/freee/freee-api-schema/master/open-api-3/api-schema.json -g typescript-node -o src/freeeapi --additional-properties=allowUnicodeIdentifiers=true,enumPropertyNaming=original,modelPropertyNaming=original",
     "patch1:ignorepartner": "patch ./src/freeeapi/model/partnersIndexResponse.ts < ./partnersIndexResponse.patch",
     "patch1:revisegetcompany": "patch ./src/freeeapi/api/companiesApi.ts < ./companiesApi.patch",
     "patch2:replacetype": "find ./src/freeeapi -type f -print0 | xargs -0 sed -i -e \"s/http.ClientResponse/any/\"",
