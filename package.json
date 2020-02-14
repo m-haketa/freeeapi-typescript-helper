@@ -30,7 +30,7 @@
     "patch1:ignorepartner": "patch ./src/freeeapi/model/partnersIndexResponse.ts < ./partnersIndexResponse.patch",
     "patch1:revisegetcompany": "patch ./src/freeeapi/api/companiesApi.ts < ./companiesApi.patch",
     "patch2:replacetype": "find ./src/freeeapi -type f -print0 | xargs -0 sed -i -e \"s/http.ClientResponse/any/\"",
-    "apibuild": "npm run openapi-generator:freeeapi && npm-run-all patch1:* && npm run patch2:replacetype",
+    "apibuild": "npm run openapi-generator:freeeapi_caseoriginal && npm-run-all patch1:* && npm run patch2:replacetype",
     "demo": "ts-node ./src/demo.ts",
     "gettoken": "ts-node ./src/token/getToken.ts",
     "refreshtoken": "ts-node ./src/token/refreshToken.ts"
